@@ -1,7 +1,7 @@
 'use strict';
 
 var PHOTO_COUNT = 25;
-var socialCommentСount = document.querySelector('.social__comments').children.length;
+var socialCaption = document.querySelector('.social__caption');
 var usersСontainer = document.querySelector('.pictures');
 var similarPictureTemplate = document.querySelector('#picture')
     .content
@@ -29,7 +29,7 @@ var getRandomInRange = function (min, max) {
 };
 
 var getRandomArrayItem = function (array) {
-  return array[Math.floor(Math.random() * array.length)];
+  return array[getRandomInRange(0, array.length - 1)];
 };
 
 var createComments = function () {
@@ -40,40 +40,103 @@ var createComments = function () {
   };
 };
 
-var photos = [];
-
-var createPhoto = function (photo) {
-  for (var i = 1; i <= PHOTO_COUNT; i++) {
-    photo.push({
-      url: 'photos/' + i + '.jpg',
-      description: socialCommentСount,
-      comments: createComments(),
-      likes: getRandomInRange(15, 200)
-    });
+var createCommentsArray = function () {
+  var comments = [];
+  for (var i = 1; i <= getRandomInRange(1, 15); i++) {
+    comments.push(createComments());
   }
 
-  return photo;
+  return comments;
 };
 
-createPhoto(photos);
+var createPhoto = function (i) {
+  return {
+    url: 'photos/' + i + '.jpg',
+    description: socialCaption.textContent,
+    comments: createComments(),
+    likes: getRandomInRange(15, 200)
+  };
+};
+
+var createPhotos = function () {
+  var photos = [];
+  for (var i = 1; i <= PHOTO_COUNT; i++) {
+    photos.push(createPhoto(i));
+  }
+
+  return photos;
+};
+
+createPhotos();
 
 var renderPhoto = function (photo) {
   var userPhoto = similarPictureTemplate.cloneNode(true);
+  var commentsCount = createCommentsArray().length;
 
   userPhoto.querySelector('.picture__img').src = photo.url;
-  userPhoto.querySelector('.picture__comments').textContent = photo.description;
+  userPhoto.querySelector('.picture__comments').textContent = commentsCount;
   userPhoto.querySelector('.picture__likes').textContent = photo.likes;
 
   return userPhoto;
 };
 
-var fragment = document.createDocumentFragment();
+var appendFragment = function (photo) {
+  var fragment = document.createDocumentFragment();
 
-photos.forEach(function(i) {
-  fragment.appendChild(renderPhoto(i));
-});
+  photo.forEach(function (i) {
+    fragment.appendChild(renderPhoto(i));
+  });
 
-usersСontainer.appendChild(fragment);
+  usersСontainer.appendChild(fragment);
+  return fragment;
+};
 
-//не совсем понятно с description, строка — описание фотографии. как это должно выглядеть,
-//в виде количества комментариев? или это описание где на фото должно быть??
+appendFragment(createPhotos());
+
+var bigPicture = document.querySelector('.big-picture');
+var bigPictureImg = bigPicture.querySelector('.big-picture__img img');
+var likesCount = bigPicture.querySelector('.likes-count');
+var commentCount = bigPicture.querySelector('.comments-count');
+var socialCommentList = bigPicture.querySelector('.social__comments');
+var socialComment = bigPicture.querySelector('.social__comment');
+var socialPictures = bigPicture.querySelectorAll('.social__picture');
+var socialCommentCount = bigPicture.querySelector('.social__comment-count');
+var commentsLoader = document.querySelector('.comments-loader');
+var body = document.querySelector('body');
+
+bigPicture.classList.remove('hidden');
+
+var renderBigPicture = function (i) {
+  bigPictureImg.src = createPhotos()[i].url;
+  likesCount.textContent = createPhotos()[i].likes;
+  commentCount.textContent = createCommentsArray().length;
+  socialCaption.textContent = createPhotos()[i].description;
+
+  socialCommentCount.classList.add('hidden');
+  commentsLoader.classList.add('hidden');
+
+  body.classList.add('modal-open');
+};
+
+var renderCommentPhoto = function (i) {
+  socialPictures.forEach(function (item) {
+    item.src = createCommentsArray()[i].avatar;
+    item.alt = createCommentsArray()[i].name;
+  });
+};
+
+var renderComment = function () {
+  var fragment = document.createDocumentFragment();
+
+  var userComment = socialComment.cloneNode(true);
+
+  fragment.appendChild(userComment);
+  socialCommentList.removeChild(socialCommentList.firstElementChild);
+  socialCommentList.appendChild(fragment);
+
+  renderBigPicture(0);
+  renderCommentPhoto(0);
+  return fragment;
+};
+
+renderComment();
