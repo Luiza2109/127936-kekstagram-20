@@ -183,7 +183,6 @@ var onPictureOpenClick = function (evt) {
     if (user === item) {
       bigPicture.classList.remove('hidden');
       renderBigPicture(i);
-      renderCommentPhoto(i);
     }
   });
 
@@ -263,6 +262,7 @@ var scalePhoto = {
 
 var currentScale = scaleValue.MAX;
 var currentPhoto = scalePhoto.MAX;
+inputScaleValue.value = currentScale + '%';
 
 var setScale = function (value) {
   currentScale = value;
@@ -328,20 +328,20 @@ effectFields.addEventListener('change', function (evt) {
 var TagLength = {
   MIN: 2,
   MAX: 20,
-  MAX_HASHTAG: 5,
-  MAX_COMMENT_LENGTH: 140
+  MAX_HASHTAG: 5
 };
 
 var ValidateMessage = {
   NO_ERRORS: '',
   TOO_SHORT: 'Имя должно состоять минимум из ' + TagLength.MIN + '-х символов',
   TOO_LONG: 'Имя должно состоять максимум из ' + TagLength.MAX + '-х символов',
-  TOO_TWICE: 'Один и тот же хэш-тег не может быть использован дважды', // как это прописать?
-  TOO_MAX: 'Нельзя указать больше' + TagLength.MAX_HASHTAG + ' хэш-тегов',
-  TOO_SPECIAL_SYMBOL: 'Не может содержать данный символ',
-  TOO_SYMBOL_LATTICE: 'Хэш-тег должен начинаться с символа' + ' #',
-  COMMENT_USER: 'Длина комментария не должна превышать 140 символов'
+  TOO_TWICE: 'Один и тот же хэш-тег не может быть использован дважды',
+  TOO_MAX: 'нельзя указать больше' + TagLength.MAX_HASHTAG + ' хэш-тегов',
+  TOO_SPECIAL_SYMBOL: 'не может содержать данный символ',
+  TOO_SYMBOL_LATTICE: 'хэш-тег должен начинаться с символа' + ' #'
 };
+
+var INVALID_TAG_REGEXP = /\#[^0-9a-zA-Zа-яА-ЯёЁ]+/;
 
 var validateTags = function (hashtags) {
 
@@ -352,18 +352,20 @@ var validateTags = function (hashtags) {
   for (var i = 0; i < hashtags.length; i++) {
     var tag = hashtags[i];
 
-    if (tag[0] !== '#') {
+    if (tag.lastIndexOf('#') > 0) {
       return ValidateMessage.TOO_SYMBOL_LATTICE;
     }
-
-    if (INVALID_TAG_REGEXP.test(tag)) {
-      return ValidateMessage.TOO_SPECIAL_SYMBOL;
-    }
-
     if (tag.length <= TagLength.MIN) {
       return ValidateMessage.TOO_SHORT;
-    } else {
-      return ValidateMessage.NO_ERRORS;
+    }
+    if (tag.length >= TagLength.MAX) {
+      return ValidateMessage.TOO_LONG;
+    }
+    if (hashtags.indexOf(tag, i + 1)) {
+      return ValidateMessage.TOO_LONG;
+    }
+    if (INVALID_TAG_REGEXP.test(tag)) {
+      return ValidateMessage.TOO_SPECIAL_SYMBOL;
     }
   }
 
