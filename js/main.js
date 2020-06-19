@@ -341,7 +341,100 @@ var ValidateMessage = {
   TOO_SYMBOL_LATTICE: 'хэш-тег должен начинаться с символа' + ' #'
 };
 
-var INVALID_TAG_REGEXP = /\#[^0-9a-zA-Zа-яА-ЯёЁ]+/;
+var checkLengthTag = function (tags) {
+  var error = false;
+  var arrHashtags = tags.slice().toLowerCase().split(' ');
+
+  for (var i = 0; i < arrHashtags.length; i++) {
+    if (arrHashtags[i].length < TagLength.MIN) {
+      error = true;
+      break;
+    }
+  }
+
+  return error;
+};
+
+var checkHashtagSymbol = function (tags) {
+  return tags.slice(0, 1) !== '#';
+};
+
+var checkHashtagRepeat = function (tags) {
+  var error = false;
+  var arr = tags.split(' ');
+  var tmp = [];
+
+  for (var i = 0; i < arr.length; i++) {
+    if (tmp.indexOf(arr[i].toLowerCase()) === -1) {
+      tmp.push(arr[i]);
+    } else {
+      error = true;
+      break;
+    }
+  }
+
+  return error;
+};
+
+var checkHashtagCount = function (tags) {
+  var error = false;
+  var arr = tags.split(' ');
+
+  if (arr.length > 5) {
+    error = true;
+  }
+
+  return error;
+};
+
+var checkHashtagSpecSymbol = function (tags) { //не работает
+  var error = false;
+  var INVALID_TAG_REGEXP = /\#[^0-9a-zA-Zа-яА-ЯёЁ]+/;
+
+  if (INVALID_TAG_REGEXP.test(tags)) {
+    error = true;
+    console.log('true');
+  }
+
+  return error;
+};
+
+var validateTags = function (hashtags) {
+  switch (hashtags.length > 1) { // hashtags.length > 1 не помогает, работает только при первом разе
+    case checkHashtagSpecSymbol(hashtags):
+      hashtagInput.setCustomValidity(ValidateMessage.TOO_SPECIAL_SYMBOL);
+      break;
+    case checkHashtagCount(hashtags):
+      hashtagInput.setCustomValidity(ValidateMessage.TOO_MAX);
+      break;
+    case checkHashtagSymbol(hashtags):
+      hashtagInput.setCustomValidity(ValidateMessage.TOO_SYMBOL_LATTICE);
+      break;
+    case checkHashtagRepeat(hashtags):
+      hashtagInput.setCustomValidity(ValidateMessage.TOO_TWICE);
+      break;
+    case checkLengthTag(hashtags):
+      hashtagInput.setCustomValidity(ValidateMessage.TOO_SHORT);
+      break;
+    default:
+      hashtagInput.setCustomValidity(ValidateMessage.NO_ERRORS);
+  }
+};
+
+var onHashtagInput = function (evt) {
+  var hashtags = evt.target.value;
+  var message = validateTags(hashtags);
+};
+
+hashtagInput.addEventListener('input', onHashtagInput);
+
+/*var onHashtagInput = function (evt) {
+  var hashtags = evt.target.value.toLowerCase().split(' ');
+  var message = validateTags(hashtags);
+  hashtagInput.setCustomValidity(message);
+};*/
+
+/*var INVALID_TAG_REGEXP = /\#[^0-9a-zA-Zа-яА-ЯёЁ]+/;
 
 var validateTags = function (hashtags) {
 
@@ -370,12 +463,4 @@ var validateTags = function (hashtags) {
   }
 
     return ValidateMessage.NO_ERRORS;
-};
-
-var onHashtagInput = function (evt) {
-  var hashtags = evt.target.value.toLowerCase().split(' ');
-  var message = validateTags(hashtags);
-  hashtagInput.setCustomValidity(message);
-};
-
-hashtagInput.addEventListener('input', onHashtagInput);
+};*/
