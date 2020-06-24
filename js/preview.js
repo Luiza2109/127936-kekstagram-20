@@ -36,7 +36,7 @@
     document.removeEventListener('keydown', onEditPopupEscPress);
   };
 
-  loadingPhoto.addEventListener('change', function (evt) {
+  loadingPhoto.addEventListener('change', function () {
     onEditPhotoOpenChange();
   });
 
@@ -69,7 +69,7 @@
     if (scaleValue.MIN <= currentScale - scaleValue.STEP) {
       setScale(currentScale - scaleValue.STEP);
       currentPhoto -= scalePhoto.STEP;
-      photoPreparation.style.transform = "scale("+ currentPhoto +")";
+      photoPreparation.style.transform = 'scale('+ currentPhoto +')';
     }
   };
 
@@ -77,7 +77,7 @@
     if (scaleValue.MAX >= currentScale + scaleValue.STEP) {
       setScale(currentScale + scaleValue.STEP);
       currentPhoto += scalePhoto.STEP;
-      photoPreparation.style.transform = "scale("+ currentPhoto +")";
+      photoPreparation.style.transform = 'scale('+ currentPhoto +')';
     }
   };
 

@@ -86,7 +86,6 @@
       return;
     }
 
-    evt.preventDefault();
     window.util.escEvent(evt, onPictureCloseClick);
   };
 
@@ -110,7 +109,7 @@
     });
   });
 
-  var onPictureCloseClick = function (evt) {
+  var onPictureCloseClick = function () {
     pageBody.classList.remove('modal-open');
     bigPicture.classList.add('hidden');
 
@@ -121,7 +120,7 @@
     onPictureOpenClick(evt);
   });
 
-  bigPictureCancel.addEventListener('click', function (evt) {
-    onPictureCloseClick(evt);
+  bigPictureCancel.addEventListener('click', function () {
+    onPictureCloseClick();
   });
 })();
