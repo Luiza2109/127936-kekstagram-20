@@ -13,12 +13,12 @@
     getRandomArrayItem: function (array) {
       return array[Math.floor(Math.random() * array.length)];
     },
-    isEscEvent: function (evt, action) {
+    escEvent: function (evt, action) {
       if (evt.key === Keyboard.ESC_KEY) {
         action(evt);
       }
     },
-    isEnterEvent: function (evt, action) {
+    enterEvent: function (evt, action) {
       if (evt.key === Keyboard.ENTER_KEY) {
         action(evt);
       }

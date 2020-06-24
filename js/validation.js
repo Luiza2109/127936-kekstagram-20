@@ -20,7 +20,7 @@
     TOO_SYMBOL_LATTICE: 'Хэш-тег должен начинаться с символа ' + ' #'
   };
 
-  var INVALID_TAG_REGEXP = /\#[^0-9a-zA-Zа-яА-ЯёЁ]+/;
+  var INVALID_TAG_REGEXP = /[\D\W]/; //постоянно выводит ошибки
 
   var validateTags = function (hashtags) {
     var arrHashtags = hashtags.slice().trim().replace(/\s{2,}/g, ' ').toLowerCase().split(' ');
@@ -54,6 +54,7 @@
   };
 
   var onHashtagInput = function (evt) {
+    hashtagInput.setCustomValidity(ValidateMessage.NO_ERRORS);
     var hashtags = evt.target.value;
 
     if (hashtags.length > 0) { //не работает

@@ -3,10 +3,6 @@
 (function () {
   var PHOTO_COUNT = 25;
   var socialCaption = document.querySelector('.social__caption');
-  var usersContainer = document.querySelector('.pictures');
-  var similarPictureTemplate = document.querySelector('#picture')
-      .content
-      .querySelector('.picture');
 
   var MESSAGE_USERS = [
     'Всё отлично!',
@@ -61,28 +57,6 @@
   };
 
   var arrayPhotos = createPhotos();
-
-  var renderPhoto = function (photo) {
-    var userPhoto = similarPictureTemplate.cloneNode(true);
-
-    userPhoto.querySelector('.picture__img').src = photo.url;
-    userPhoto.querySelector('.picture__comments').textContent = createCommentsArray().length;
-    userPhoto.querySelector('.picture__likes').textContent = photo.likes;
-
-    return userPhoto;
-  };
-
-  var appendPhotoFragment = function (photo) {
-    var fragment = document.createDocumentFragment();
-
-    photo.forEach(function (i) {
-      fragment.appendChild(renderPhoto(i));
-    });
-
-    usersContainer.appendChild(fragment);
-  };
-
-  appendPhotoFragment(arrayPhotos);
 
   window.data = {
     createCommentsArray: createCommentsArray,
