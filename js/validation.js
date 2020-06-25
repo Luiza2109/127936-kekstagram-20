@@ -20,32 +20,59 @@
     TOO_SYMBOL_LATTICE: 'Хэш-тег должен начинаться с символа ' + ' #'
   };
 
+  var StyleError = {
+    NO_ERRORS: '',
+    ERRORS: '2px solid red'
+  };
+
+  //hashtagInput.style.outline = '2px solid red';
+
   var INVALID_TAG_REGEXP = /[\D\W]/; //постоянно выводит ошибки
+
+  var checkLengthTag = function (tags) {
+    var arrHashtags = tags.slice().trim().replace(/\s{2,}/g, ' ').toLowerCase().split(' ');
+
+    for (var i = 0; i < arrHashtags.length; i++) {
+      if (arrHashtags[i].length < TagLength.MIN) {
+        hashtagInput.style.outline = StyleError.ERRORS;
+        return true;
+
+        break;
+      }
+    }
+
+    return false;
+  };
 
   var validateTags = function (hashtags) {
     var arrHashtags = hashtags.slice().trim().replace(/\s{2,}/g, ' ').toLowerCase().split(' ');
 
     for (var i = 0; i < arrHashtags.length; i++) {
       switch (true) {
-        case arrHashtags[i][0] !== '#':
+        case arrHashtags[i][0].slice(0, 1) !== '#':
+          hashtagInput.style.outline = StyleError.ERRORS;
           hashtagInput.setCustomValidity(ValidateMessage.TOO_SYMBOL_LATTICE);
           break;
-        case INVALID_TAG_REGEXP.test(arrHashtags[i]): //проверяет только в начале строки почему?
-          hashtagInput.setCustomValidity(ValidateMessage.TOO_SPECIAL_SYMBOL);
-          break;
-        case arrHashtags[i].length < TagLength.MIN:
+        case checkLengthTag(hashtags):
           hashtagInput.setCustomValidity(ValidateMessage.TOO_SHORT);
           break;
+        //case INVALID_TAG_REGEXP.test(arrHashtags[i]): //проверяет только в начале строки почему?
+          //hashtagInput.setCustomValidity(ValidateMessage.TOO_SPECIAL_SYMBOL);
+          //break;
         case arrHashtags[i].length > TagLength.MAX:
+          hashtagInput.style.outline = StyleError.ERRORS;
           hashtagInput.setCustomValidity(ValidateMessage.TOO_LONG);
           break;
         case arrHashtags.length > TagLength.MAX_HASHTAG:
+          hashtagInput.style.outline = StyleError.ERRORS;
           hashtagInput.setCustomValidity(ValidateMessage.TOO_MAX);
           break;
         case arrHashtags.indexOf(arrHashtags[i]) !== i:
+          hashtagInput.style.outline = StyleError.ERRORS;
           hashtagInput.setCustomValidity(ValidateMessage.TOO_TWICE);
           break;
         default:
+          hashtagInput.style.outline = StyleError.NO_ERRORS;
           hashtagInput.setCustomValidity(ValidateMessage.NO_ERRORS);
       }
     }
@@ -55,6 +82,7 @@
 
   var onHashtagInput = function (evt) {
     hashtagInput.setCustomValidity(ValidateMessage.NO_ERRORS);
+    hashtagInput.style.outline = StyleError.NO_ERRORS;
     var hashtags = evt.target.value;
 
     if (hashtags.length > 0) { //не работает

@@ -13,36 +13,7 @@
   var effectFields = document.querySelector('.img-upload__effects');
   var photoPreparation = document.querySelector('.img-upload__preview > img');
   var effectLevel = document.querySelector('.effect-level');
-
-  var onEditPopupEscPress = function (evt) {
-    if (hashtagInput === document.activeElement || commentUser === document.activeElement) {
-      return;
-    }
-
-    evt.preventDefault();
-    window.util.escEvent(evt, onEditPhotoCloseClick);
-  };
-
-  var onEditPhotoOpenChange = function () {
-    pageBody.classList.add('modal-open');
-    editPhoto.classList.remove('hidden');
-    document.addEventListener('keydown', onEditPopupEscPress);
-  };
-
-  var onEditPhotoCloseClick = function () {
-    pageBody.classList.remove('modal-open');
-    editPhoto.classList.add('hidden');
-    loadingPhoto.value = '';
-    document.removeEventListener('keydown', onEditPopupEscPress);
-  };
-
-  loadingPhoto.addEventListener('change', function () {
-    onEditPhotoOpenChange();
-  });
-
-  closeEditPhoto.addEventListener('click', function () {
-    onEditPhotoCloseClick();
-  });
+  var imgUploadForm = document.querySelector('#upload-select-image');
 
   var scaleValue = {
     MAX: 100,
@@ -58,7 +29,6 @@
 
   var currentScale = scaleValue.MAX;
   var currentPhoto = scalePhoto.MAX;
-  inputScaleValue.value = currentScale + '%'; //не сделано
 
   var setScale = function (value) {
     currentScale = value;
@@ -69,7 +39,7 @@
     if (scaleValue.MIN <= currentScale - scaleValue.STEP) {
       setScale(currentScale - scaleValue.STEP);
       currentPhoto -= scalePhoto.STEP;
-      photoPreparation.style.transform = 'scale('+ currentPhoto +')';
+      photoPreparation.style.transform = 'scale(' + currentPhoto + ')';
     }
   };
 
@@ -77,7 +47,7 @@
     if (scaleValue.MAX >= currentScale + scaleValue.STEP) {
       setScale(currentScale + scaleValue.STEP);
       currentPhoto += scalePhoto.STEP;
-      photoPreparation.style.transform = 'scale('+ currentPhoto +')';
+      photoPreparation.style.transform = 'scale(' + currentPhoto + ')';
     }
   };
 
@@ -110,7 +80,11 @@
     photoPreparation.style.filter = '';
     photoPreparation.className = getEffectClass();
 
-    console.log(photoPreparation.className);
+    if (photoPreparation.className == EffectClass.NAME + currentEffect) {
+      effectLevel.classList.remove('hidden');
+    } else {
+      effectLevel.classList.add('hidden');
+    }
   };
 
   var onEffectChange = function (evt) {
@@ -121,7 +95,7 @@
     onEffectChange(evt);
   });
 
-  var effectLevelLine = document.querySelector('.effect-level__line');
+  var effectLevelValue = document.querySelector('.effect-level__value');
   var effectLevelPin = document.querySelector('.effect-level__pin');
   var effectLevelDepth = document.querySelector('.effect-level__depth');
 
@@ -132,11 +106,9 @@
 
   var resetSlider = function () {
     effectLevelDepth.style.width = 100 + '%';
-    effectLevelLine.value = 100;
+    effectLevelValue.value = 100;
     effectLevelPin.style.left = 100 + '%';
   };
-
-  resetSlider();
 
   effectLevelPin.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
@@ -173,5 +145,50 @@
 
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp, {once: true});
+  });
+
+  var renderReset = function () {
+    inputScaleValue.value = '100' + '%';
+    photoPreparation.style.transform = 'scale(1)';
+    effectLevel.classList.add('hidden');
+    resetSlider();
+  };
+
+  var onEditPopupEscPress = function (evt) {
+    if (hashtagInput === document.activeElement || commentUser === document.activeElement) {
+      return;
+    }
+    window.util.escEvent(evt, onEditPhotoCloseClick);
+  };
+
+  var onEditPhotoOpenChange = function () {
+    pageBody.classList.add('modal-open');
+    editPhoto.classList.remove('hidden');
+
+    renderReset();
+    document.addEventListener('keydown', onEditPopupEscPress);
+  };
+
+  var onEditPhotoCloseClick = function () {
+    pageBody.classList.remove('modal-open');
+    editPhoto.classList.add('hidden');
+    loadingPhoto.value = '';
+    document.removeEventListener('keydown', onEditPopupEscPress);
+  };
+
+  loadingPhoto.addEventListener('change', function () {
+    onEditPhotoOpenChange();
+  });
+
+  closeEditPhoto.addEventListener('click', function () {
+    onEditPhotoCloseClick();
+  });
+
+  imgUploadForm.addEventListener('submit', function (evt) {
+    window.upload(new FormData(imgUploadForm), function (response) {
+      editPhoto.classList.add('hidden');
+    });
+    evt.preventDefault();
+    imgUploadForm.reset();
   });
 })();
