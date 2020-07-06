@@ -1,20 +1,12 @@
 'use strict';
 
 (function () {
-  var pageBody = document.querySelector('body');
-  var loadingPhoto = document.querySelector('#upload-file');
-  var editPhoto = document.querySelector('.img-upload__overlay');
-  var closeEditPhoto = document.querySelector('#upload-cancel');
-  var hashtagInput = document.querySelector('.text__hashtags');
-  var commentUser = document.querySelector('.text__description');
   var inputScaleValue = document.querySelector('.scale__control--value');
   var buttonSmaller = document.querySelector('.scale__control--smaller');
   var buttonBigger = document.querySelector('.scale__control--bigger');
   var effectFields = document.querySelector('.img-upload__effects');
   var photoPreparation = document.querySelector('.img-upload__preview > img');
   var effectLevel = document.querySelector('.effect-level');
-  var imgUploadForm = document.querySelector('#upload-select-image');
-  var effectsPreview = document.querySelectorAll('.effects__preview');
   var effectsRadio = document.querySelectorAll('.effects__radio');
   var textDescription = document.querySelector('.text__description');
   var hashtagInput = document.querySelector('.text__hashtags');
@@ -43,7 +35,7 @@
     if (scaleValue.MIN <= currentScale - scaleValue.STEP) {
       setScale(currentScale - scaleValue.STEP);
       currentPhoto -= scalePhoto.STEP;
-      photoPreparation.style.transform = 'scale('+ currentPhoto +')';
+      photoPreparation.style.transform = 'scale(' + currentPhoto + ')';
     }
   };
 
@@ -51,7 +43,7 @@
     if (scaleValue.MAX >= currentScale + scaleValue.STEP) {
       setScale(currentScale + scaleValue.STEP);
       currentPhoto += scalePhoto.STEP;
-      photoPreparation.style.transform = 'scale('+ currentPhoto +')';
+      photoPreparation.style.transform = 'scale(' + currentPhoto + ')';
     }
   };
 
@@ -99,14 +91,14 @@
     onEffectChange(evt);
   });
 
-  var renderReset = function () { //функция для сброса данных
+  var renderReset = function () {
     inputScaleValue.value = scaleValue.MAX + '%';
-     window.slider.resetSlider();
+    window.slider.resetSlider();
 
     if (scaleValue.MAX >= currentScale + scaleValue.STEP || scaleValue.MIN <= currentScale - scaleValue.STEP) {
       setScale(currentScale = scaleValue.MAX);
       currentPhoto = scalePhoto.MAX;
-      photoPreparation.style.transform = 'scale('+ currentPhoto +')';
+      photoPreparation.style.transform = 'scale(' + currentPhoto + ')';
     }
 
     photoPreparation.className = EffectClass.NONE;

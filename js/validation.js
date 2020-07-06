@@ -23,11 +23,7 @@
   var StyleError = {
     NO_ERRORS: '',
     ERRORS: '2px solid red'
-  }
-
-  //hashtagInput.style.outline = '2px solid red';
-
-  var INVALID_TAG_REGEXP = /[\D\W]/; //постоянно выводит ошибки
+  };
 
   var checkLengthTag = function (tags) {
     var arrHashtags = tags.slice().trim().replace(/\s{2,}/g, ' ').toLowerCase().split(' ');
@@ -36,7 +32,6 @@
       if (arrHashtags[i].length < TagLength.MIN) {
         hashtagInput.style.outline = StyleError.ERRORS;
         return true;
-        break;
       }
     }
 
@@ -55,9 +50,6 @@
         case checkLengthTag(hashtags):
           hashtagInput.setCustomValidity(ValidateMessage.TOO_SHORT);
           break;
-        //case INVALID_TAG_REGEXP.test(arrHashtags[i]): //проверяет только в начале строки почему?
-          //hashtagInput.setCustomValidity(ValidateMessage.TOO_SPECIAL_SYMBOL);
-          //break;
         case arrHashtags[i].length > TagLength.MAX:
           hashtagInput.style.outline = StyleError.ERRORS;
           hashtagInput.setCustomValidity(ValidateMessage.TOO_LONG);
@@ -84,7 +76,7 @@
     hashtagInput.style.outline = StyleError.NO_ERRORS;
     var hashtags = evt.target.value;
 
-    if (hashtags.length > 0) { //не работает
+    if (hashtags.length > 0) {
       validateTags(hashtags);
     }
   };

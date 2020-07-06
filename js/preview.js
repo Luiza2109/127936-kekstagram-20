@@ -7,12 +7,6 @@
   var closeEditPhoto = document.querySelector('#upload-cancel');
   var hashtagInput = document.querySelector('.text__hashtags');
   var commentUser = document.querySelector('.text__description');
-  var inputScaleValue = document.querySelector('.scale__control--value');
-  var buttonSmaller = document.querySelector('.scale__control--smaller');
-  var buttonBigger = document.querySelector('.scale__control--bigger');
-  var effectFields = document.querySelector('.img-upload__effects');
-  var photoPreparation = document.querySelector('.img-upload__preview > img');
-  var effectLevel = document.querySelector('.effect-level');
   var imgUploadForm = document.querySelector('#upload-select-image');
 
   var onEditPopupEscPress = function (evt) {
@@ -54,5 +48,4 @@
   };
 
   imgUploadForm.addEventListener('submit', onSubmitForm);
-
 })();

@@ -39,8 +39,6 @@
     usersContainer.appendChild(fragment);
   };
 
-  //appendPhotoFragment(window.data.arrayPhotos);
-
   var onErrorMessage = function (errorMessage) {
     var node = document.createElement('div');
     node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: red;';
@@ -54,7 +52,6 @@
   };
 
   window.backend.load(appendPhotoFragment, onErrorMessage);
-  console.log(document.querySelector('.picture'));
 
   var renderComment = function () {
     var fragment = document.createDocumentFragment();

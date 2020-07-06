@@ -1,8 +1,6 @@
 'use strict';
 
 (function () {
-  var successLoading = document.querySelector('.success');
-  var errorLoading = document.querySelector('.error');
   var pageBody = document.querySelector('body');
 
   var similarSuccessTemplate = document.querySelector('#success')
@@ -47,7 +45,7 @@
   };
 
   var onOutsideCloseClick = function (evt) {
-    if (successLoading == evt.target || errorLoading == evt.target) {
+    if (successLoading === evt.target || errorLoading === evt.target) {
       successLoading.classList.add('hidden');
       errorLoading.classList.add('hidden');
     }

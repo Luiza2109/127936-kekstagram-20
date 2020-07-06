@@ -1,7 +1,6 @@
 'use strict';
 
 (function () {
-  var imgUploadForm = document.querySelector('#upload-select-image');
   var editPhoto = document.querySelector('.img-upload__overlay');
 
   var TIMEOUT_IN_MS = 100000;
@@ -17,6 +16,7 @@
       if (xhr.status === StatusCode.OK) {
         onSuccess(xhr.response);
       } else {
+        editPhoto.classList.add('hidden');
         onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
       }
     });
@@ -28,9 +28,8 @@
     xhr.addEventListener('timeout', function () {
       onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
     });
-    
-    xhr.timeout = TIMEOUT_IN_MS;
 
+    xhr.timeout = TIMEOUT_IN_MS;
     return xhr;
   };
 
@@ -46,12 +45,6 @@
     save: function (data, onSuccess, onError) {
       var xhr = new XMLHttpRequest();
       var URL = 'https://javascript.pages.academy/kekstagram';
-
-
-      var onError = function (message) {
-        console.error(message);
-        editPhoto.classList.add('hidden');
-      };
 
       addServerListener(xhr, onSuccess, onError);
 
