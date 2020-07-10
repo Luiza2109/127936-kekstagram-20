@@ -30,6 +30,7 @@
     });
 
     xhr.timeout = TIMEOUT_IN_MS;
+
     return xhr;
   };
 
@@ -37,6 +38,7 @@
     load: function (onSuccess, onError) {
       var xhr = new XMLHttpRequest();
       var URL = 'https://javascript.pages.academy/kekstagram/data';
+
       addServerListener(xhr, onSuccess, onError);
 
       xhr.open('GET', URL);
