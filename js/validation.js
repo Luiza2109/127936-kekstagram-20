@@ -47,6 +47,10 @@
           hashtagInput.style.outline = StyleError.ERRORS;
           hashtagInput.setCustomValidity(ValidateMessage.TOO_SYMBOL_LATTICE);
           break;
+        case arrHashtags[i].match(/[A-Za-z0-9А-аЯ-я#]/g).length < arrHashtags[i].length:
+          hashtagInput.style.outline = StyleError.ERRORS;
+          hashtagInput.setCustomValidity(ValidateMessage.TOO_SPECIAL_SYMBOL);
+          break;
         case checkLengthTag(hashtags):
           hashtagInput.setCustomValidity(ValidateMessage.TOO_SHORT);
           break;

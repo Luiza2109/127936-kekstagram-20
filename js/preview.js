@@ -42,6 +42,7 @@
 
   var onSubmitForm = function (evt) {
     window.backend.save(new FormData(imgUploadForm), function () {
+      loadingPhoto.value = '';
       editPhoto.classList.add('hidden');
     });
     evt.preventDefault();

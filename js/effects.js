@@ -111,6 +111,7 @@
   };
 
   window.effects = {
-    renderReset: renderReset
+    renderReset: renderReset,
+    getEffectClass: getEffectClass
   };
 })();
