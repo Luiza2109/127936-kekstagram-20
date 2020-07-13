@@ -15,6 +15,13 @@
   var commentCount = bigPicture.querySelector('.comments-count');
   var socialCaption = document.querySelector('.social__caption');
   var socialCommentInput = document.querySelector('.social__footer-text');
+  var commentsLoader = bigPicture.querySelector('.comments-loader');
+  var socialCommentCount = bigPicture.querySelector('.social__comment-count');
+
+  var ShowComment = {
+    START: 0,
+    MAX: 5,
+  };
 
   var renderPhoto = function (photo) {
     var userPhoto = similarPictureTemplate.cloneNode(true);
@@ -61,17 +68,54 @@
   var onLoad = function (data) {
     appendPhotoFragment(data);
 
-    var renderCommentsPhoto = function (i) {
+    var renderCommentsPhoto = function (i, commentCount) {
       var fragment = document.createDocumentFragment();
-      var comments = data[i].comments;
+
+      var comments = data[i].comments.slice(commentCount * 5, (commentCount + 1) * 5);
+
+      console.log(comments)
 
       comments.forEach(function (item) {
         fragment.appendChild(renderComment(item));
       });
 
-      socialCommentList.textContent = '';
+      if (commentCount === 0) {
+        socialCommentList.textContent = '';
+      }
 
       socialCommentList.appendChild(fragment);
+
+      return fragment;
+    };
+
+    var renderList = function (i) {
+      var countComments = 0;
+
+      renderCommentsPhoto(i, countComments);
+
+      /*var arrayComments = Array.from(socialCommentList.children);
+      var maxCountComents = arrayComments.slice(0, ShowComment.MAX);
+      var exceptCountComents = arrayComments.slice(ShowComment.MAX);
+
+      exceptCountComents.forEach(function (item) {
+        item.classList.add('hidden');
+      });
+
+      if (ShowComment.MAX >= arrayComments.length) {
+        socialCommentCount.textContent = arrayComments.length + ' из ' + data[i].comments.length + ' комментариев';
+        commentsLoader.classList.add('hidden');
+      }*/
+
+      commentsLoader.addEventListener('click', function (evt) {
+        var max = data[i].comments.length;
+
+        countComments++;
+        renderCommentsPhoto(i, countComments)
+
+        if (ShowComment.MAX * (countComments + 1) >= max) {
+          commentsLoader.classList.add('hidden');
+        }
+      });
     };
 
     var renderBigPicture = function (i) {
@@ -83,7 +127,7 @@
 
       pageBody.classList.add('modal-open');
 
-      renderCommentsPhoto(i);
+      renderList(i);
     };
 
     var onPopupEscPress = function (evt) {
@@ -133,5 +177,9 @@
   };
 
   window.backend.load(onLoad, onErrorMessage);
+
+  /*window.picture = {
+    renderCommentsPhoto: onLoad.renderCommentsPhoto(i)
+  };*/
 
 })();
