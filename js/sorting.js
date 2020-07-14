@@ -9,7 +9,6 @@
   var randomButtonSort = imgFiltersForm.querySelector('#filter-random');
   var discussedButtonSort = imgFiltersForm.querySelector('#filter-discussed');
   var usersContainer = document.querySelector('.pictures');
-  var data = window.data;
 
   var removeBtnActiveClass = function () {
     imgFiltersButton.forEach(function (item) {
@@ -27,7 +26,7 @@
     });
   };
 
-  var getRandomPhotos = function () {
+  var getRandomPhotos = function (photo) {
     var someRandomPhotos = data.map(function (element) {
       return [element, Math.random()];
     })
@@ -43,6 +42,7 @@
   };
 
   var getDiscussedFilter = function () {
+    var data = window.data;
     var clonePfotos = data.slice();
 
     clonePfotos.sort(function (a, b) {
@@ -80,4 +80,7 @@
 
   onFilterButtonClick();
 
+  window.sorting = {
+    onFilterButtonClick: onFilterButtonClick
+  };
 })();
