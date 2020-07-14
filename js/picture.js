@@ -16,7 +16,6 @@
   var socialCaption = document.querySelector('.social__caption');
   var socialCommentInput = document.querySelector('.social__footer-text');
   var commentsLoader = bigPicture.querySelector('.comments-loader');
-  var socialCommentCount = bigPicture.querySelector('.social__comment-count');
 
   var ShowComment = {
     START: 0,
@@ -66,56 +65,31 @@
   };
 
   var onLoad = function (data) {
+    window.data = data;
     appendPhotoFragment(data);
 
-    var renderCommentsPhoto = function (i, commentCount) {
-      var fragment = document.createDocumentFragment();
+    var countComments = 0;
 
-      var comments = data[i].comments.slice(commentCount * 5, (commentCount + 1) * 5);
+    var getInitialComments = function (i) {
+      var comments = data[i].comments.slice(countComments * ShowComment.MAX, (countComments + 1) * ShowComment.MAX);
 
-      console.log(comments)
-
-      comments.forEach(function (item) {
-        fragment.appendChild(renderComment(item));
-      });
-
-      if (commentCount === 0) {
+      if (countComments === 0) {
         socialCommentList.textContent = '';
       }
 
-      socialCommentList.appendChild(fragment);
-
-      return fragment;
+      return comments;
     };
 
-    var renderList = function (i) {
-      var countComments = 0;
+    var renderCommentsPhoto = function (i) {
+      var fragment = document.createDocumentFragment();
 
-      renderCommentsPhoto(i, countComments);
+      var initialComments = getInitialComments(i);
 
-      /*var arrayComments = Array.from(socialCommentList.children);
-      var maxCountComents = arrayComments.slice(0, ShowComment.MAX);
-      var exceptCountComents = arrayComments.slice(ShowComment.MAX);
-
-      exceptCountComents.forEach(function (item) {
-        item.classList.add('hidden');
+      initialComments.forEach(function (item) {
+        fragment.appendChild(renderComment(item));
       });
 
-      if (ShowComment.MAX >= arrayComments.length) {
-        socialCommentCount.textContent = arrayComments.length + ' из ' + data[i].comments.length + ' комментариев';
-        commentsLoader.classList.add('hidden');
-      }*/
-
-      commentsLoader.addEventListener('click', function (evt) {
-        var max = data[i].comments.length;
-
-        countComments++;
-        renderCommentsPhoto(i, countComments)
-
-        if (ShowComment.MAX * (countComments + 1) >= max) {
-          commentsLoader.classList.add('hidden');
-        }
-      });
+      socialCommentList.appendChild(fragment);
     };
 
     var renderBigPicture = function (i) {
@@ -127,7 +101,18 @@
 
       pageBody.classList.add('modal-open');
 
-      renderList(i);
+      renderCommentsPhoto(i);
+
+      commentsLoader.addEventListener('click', function () {
+        var max = data[i].comments.length;
+
+        countComments++;
+        renderCommentsPhoto(i, countComments);
+
+        if (ShowComment.MAX * (countComments + 1) >= max) {
+          commentsLoader.classList.add('hidden');
+        }
+      });
     };
 
     var onPopupEscPress = function (evt) {
@@ -178,8 +163,8 @@
 
   window.backend.load(onLoad, onErrorMessage);
 
-  /*window.picture = {
-    renderCommentsPhoto: onLoad.renderCommentsPhoto(i)
-  };*/
+  window.picture = {
+    appendPhotoFragment: appendPhotoFragment
+  };
 
 })();

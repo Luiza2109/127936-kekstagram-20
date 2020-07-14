@@ -15,7 +15,7 @@
       return 'filter: sepia(' + (1 / effectLevelLine.clientWidth * depth) + ')';
     },
     marvin: function (depth) {
-      return 'filter: invert(' + `(${100 / effectLevelLine.clientWidth * depth}%)` + ')'; //линтер ругается на обратные ковычки
+      return 'filter: invert(' + `(${100 / effectLevelLine.clientWidth * depth}%)` + ')'; линтер ругается на обратные ковычки
     },
     phobos: function (depth) {
       return 'filter: blur(' + `(${3 / effectLevelLine.clientWidth * depth}px)` + ')';
