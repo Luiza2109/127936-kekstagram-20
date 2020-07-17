@@ -42,7 +42,7 @@
     return cloneRandomArr.slice(0, MAX_LENGTH_PHOTOS);
   };
 
-  var onFilterButtonClick = window.util.debounce(function (photo) {
+  var onFilterButtonClick = window.util.debounce(function () {
     imgFilters.classList.remove('img-filters--inactive');
 
     imgFiltersForm.addEventListener('click', function (evt) {

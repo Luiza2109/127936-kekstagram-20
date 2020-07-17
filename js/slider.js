@@ -4,9 +4,7 @@
   var effectLevelLine = document.querySelector('.effect-level__line');
   var effectLevelPin = document.querySelector('.effect-level__pin');
   var effectLevelDepth = document.querySelector('.effect-level__depth');
-  var effectLevelValue = document.querySelector('.effect-level__value');
   var photoPreparation = document.querySelector('.img-upload__preview > img');
-  var effectsRadio = document.querySelectorAll('.effects__radio');
 
   var filters = {
     chrome: function (depth) {
@@ -27,7 +25,7 @@
   };
 
   var applyEffects = function (x) {
-    switch(true) {
+    switch (true) {
       case photoPreparation.classList.contains('effects__preview--chrome'):
         photoPreparation.style.filter = filters.chrome(x);
         break;
@@ -45,7 +43,7 @@
         break;
       default:
     }
-  }
+  };
 
   var EffectLineRect = {
     LEFT: 0,
@@ -77,7 +75,6 @@
       };
 
       var effectLeft = effectLevelPin.offsetLeft - shift.x;
-      var sliderNumber = (effectLevelPin.offsetLeft / effectLevelLine.offsetWidth).toFixed(1);
 
       if (effectLeft >= EffectLineRect.LEFT && effectLeft <= EffectLineRect.RIGHT) {
         var px = effectLeft + 'px';

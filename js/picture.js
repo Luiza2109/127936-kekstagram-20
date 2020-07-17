@@ -66,7 +66,6 @@
 
   var renderPhotos = function (data) {
     appendPhotoFragment(data);
-    console.log(data);
 
     var countComments = 0;
 
@@ -92,7 +91,7 @@
       socialCommentList.appendChild(fragment);
     };
 
-    var onRenderComment = function (i, data) {
+    var onRenderComment = function (i) {
       var max = data[i].comments.length;
 
       countComments++;
