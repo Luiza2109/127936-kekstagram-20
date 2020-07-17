@@ -10,7 +10,6 @@
   var discussedButtonSort = imgFiltersForm.querySelector('#filter-discussed');
   var usersContainer = document.querySelector('.pictures');
 
-//функция переключения активной кнопки
   var removeBtnActiveClass = function () {
     imgFiltersButton.forEach(function (item) {
       if (item.classList.contains('img-filters__button--active')) {
@@ -19,7 +18,6 @@
     });
   };
 
-//функция очиски
   var clearGallery = function () {
     var photos = document.querySelectorAll('.picture');
 

@@ -68,8 +68,6 @@
     window.data = data;
     appendPhotoFragment(data);
 
-    console.log(data)
-
     var countComments = 0;
 
     var getInitialComments = function (i) {
