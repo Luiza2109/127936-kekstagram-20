@@ -22,7 +22,7 @@
       return 'blur(' + (3 / effectLevelLine.clientWidth * depth) + 'px)';
     },
     heat: function (depth) {
-      return 'brightness(' + (3 / effectLevelLine.clientWidth * depth) + ')'; //?
+      return 'brightness(' + (3 / effectLevelLine.clientWidth * depth) + ')';
     }
   };
 

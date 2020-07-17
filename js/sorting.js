@@ -42,7 +42,7 @@
     return cloneRandomArr.slice(0, MAX_LENGTH_PHOTOS);
   };
 
-  var onFilterButtonClick = window.util.debounce(function (data) {
+  var onFilterButtonClick = window.util.debounce(function (photo) {
     imgFilters.classList.remove('img-filters--inactive');
 
     imgFiltersForm.addEventListener('click', function (evt) {
@@ -55,18 +55,17 @@
       target.classList.add('img-filters__button--active');
 
       if (target === defaultButtonSort) {
-        window.picture.onLoad(data);
+        window.picture.renderPhotos(data);
       }
 
       if (target === randomButtonSort) {
-        window.picture.onLoad(getRandomPhotos(data));
+        window.picture.renderPhotos(getRandomPhotos(data));
       }
 
       if (target === discussedButtonSort) {
-        window.picture.onLoad(getDiscussedFilter(data));
+        window.picture.renderPhotos(getDiscussedFilter(data));
       }
     });
-
   });
 
   onFilterButtonClick(window.data);

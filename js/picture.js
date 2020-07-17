@@ -64,9 +64,9 @@
     return userComment;
   };
 
-  var onLoad = function (data) {
-    window.data = data;
+  var renderPhotos = function (data) {
     appendPhotoFragment(data);
+    console.log(data);
 
     var countComments = 0;
 
@@ -166,10 +166,15 @@
     });
   };
 
+  var onLoad = function (data) {
+    window.data = data;
+    renderPhotos(data);
+  };
+
   window.backend.load(onLoad, onErrorMessage);
 
   window.picture = {
-    onLoad: onLoad,
+    renderPhotos: renderPhotos,
     appendPhotoFragment: appendPhotoFragment
   };
 
