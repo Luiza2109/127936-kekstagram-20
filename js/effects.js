@@ -112,6 +112,6 @@
 
   window.effects = {
     renderReset: renderReset,
-    getEffectClass: getEffectClass
+    applyEffects: applyEffect
   };
 })();
