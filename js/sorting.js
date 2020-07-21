@@ -2,7 +2,6 @@
 (function () {
   var MAX_LENGTH_PHOTOS = 10;
 
-  var imgFilters = document.querySelector('.img-filters');
   var imgFiltersForm = document.querySelector('.img-filters__form');
   var imgFiltersButton = imgFiltersForm.querySelectorAll('.img-filters__button');
   var defaultButtonSort = imgFiltersForm.querySelector('#filter-default');
@@ -43,8 +42,6 @@
   };
 
   var onFilterButtonClick = window.util.debounce(function () {
-    imgFilters.classList.remove('img-filters--inactive');
-
     imgFiltersForm.addEventListener('click', function (evt) {
       var data = window.data;
       var target = evt.target;

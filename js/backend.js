@@ -2,8 +2,9 @@
 
 (function () {
   var editPhoto = document.querySelector('.img-upload__overlay');
+  var imgFilters = document.querySelector('.img-filters');
 
-  var TIMEOUT_IN_MS = 100000;
+  var TIMEOUT_IN_MS = 1000;
 
   var StatusCode = {
     OK: 200
@@ -14,6 +15,9 @@
 
     xhr.addEventListener('load', function () {
       if (xhr.status === StatusCode.OK) {
+        setTimeout(function () {
+          imgFilters.classList.remove('img-filters--inactive');
+        }, window.util.TIMEOUT_INTERVAL);
         onSuccess(xhr.response);
       } else {
         editPhoto.classList.add('hidden');

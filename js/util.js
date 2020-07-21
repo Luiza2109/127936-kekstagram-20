@@ -25,8 +25,9 @@
 
   window.util = {
     randomArray: randomArray,
+    TIMEOUT_INTERVAL: TIMEOUT_INTERVAL,
 
-    debounce: function (action) {
+    debounce: function (cb) {
 
       var lastTimeout = null;
 
@@ -34,11 +35,11 @@
         var parameters = arguments;
 
         if (lastTimeout) {
-          clearTimeout(lastTimeout);
+          window.clearTimeout(lastTimeout);
         }
 
-        lastTimeout = setTimeout(function () {
-          action.apply(null, parameters);
+        lastTimeout = window.setTimeout(function () {
+          cb.apply(null, parameters);
         }, TIMEOUT_INTERVAL);
       };
     },
