@@ -186,16 +186,6 @@
     });
   };
 
-  var onLoad = function (data) {
-    window.data = data;
-    renderPhotos(data);
-
-    commentsLoader.addEventListener('click', function () {
-      window.pictures.onCommentsLoader(window.pictures.getCurrentPhotoData());
-      socialCommentCount.firstChild.textContent = socialCommentList.children.length + ' из ';
-    });
-  };
-
   window.backend.load(onLoad, onErrorMessage);
 
   window.picture = {

@@ -1,12 +1,11 @@
 'use strict';
 
 (function () {
-
   var TIMEOUT_IN_MS = 1000;
 
   var editPhoto = document.querySelector('.img-upload__overlay');
   var imgFilters = document.querySelector('.img-filters');
-  
+
   var StatusCode = {
     OK: 200
   };
