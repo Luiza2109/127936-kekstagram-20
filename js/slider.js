@@ -85,6 +85,7 @@
 
         applyEffects(effectLeft);
       }
+
     };
 
     var onMouseUp = function (upEvt) {

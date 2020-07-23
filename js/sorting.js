@@ -61,7 +61,6 @@
       if (target === discussedButtonSort) {
         window.picture.renderPhotos(getDiscussedFilter(data));
       }
-
     });
   });
 })();
