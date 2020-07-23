@@ -34,7 +34,7 @@
   errorLoading.classList.add('hidden');
 
   var onResponsePopupEscPress = function (evt) {
-    window.util.escEvent(evt, onResponsePopupCloseClick);
+    window.util.pressEsc(evt, onResponsePopupCloseClick);
   };
 
   var onResponsePopupCloseClick = function () {

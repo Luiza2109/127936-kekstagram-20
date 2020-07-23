@@ -1,6 +1,8 @@
 'use strict';
 
 (function () {
+  var EFFECT_ORIGINAL = 'none';
+
   var inputScaleValue = document.querySelector('.scale__control--value');
   var buttonSmaller = document.querySelector('.scale__control--smaller');
   var buttonBigger = document.querySelector('.scale__control--bigger');
@@ -11,20 +13,20 @@
   var textDescription = document.querySelector('.text__description');
   var hashtagInput = document.querySelector('.text__hashtags');
 
-  var scaleValue = {
+  var ScaleValue = {
     MAX: 100,
     MIN: 25,
     STEP: 25
   };
 
-  var scalePhoto = {
+  var ScalePhoto = {
     MAX: 1,
     MIN: 0.25,
     STEP: 0.25
   };
 
-  var currentScale = scaleValue.MAX;
-  var currentPhoto = scalePhoto.MAX;
+  var currentScale = ScaleValue.MAX;
+  var currentPhoto = ScalePhoto.MAX;
 
   var setScale = function (value) {
     currentScale = value;
@@ -32,17 +34,17 @@
   };
 
   var scaleControlSmaller = function () {
-    if (scaleValue.MIN <= currentScale - scaleValue.STEP) {
-      setScale(currentScale - scaleValue.STEP);
-      currentPhoto -= scalePhoto.STEP;
+    if (ScaleValue.MIN <= currentScale - ScaleValue.STEP) {
+      setScale(currentScale - ScaleValue.STEP);
+      currentPhoto -= ScalePhoto.STEP;
       photoPreparation.style.transform = 'scale(' + currentPhoto + ')';
     }
   };
 
   var scaleControlBigger = function () {
-    if (scaleValue.MAX >= currentScale + scaleValue.STEP) {
-      setScale(currentScale + scaleValue.STEP);
-      currentPhoto += scalePhoto.STEP;
+    if (ScaleValue.MAX >= currentScale + ScaleValue.STEP) {
+      setScale(currentScale + ScaleValue.STEP);
+      currentPhoto += ScalePhoto.STEP;
       photoPreparation.style.transform = 'scale(' + currentPhoto + ')';
     }
   };
@@ -54,8 +56,6 @@
   buttonBigger.addEventListener('click', function () {
     scaleControlBigger();
   });
-
-  var EFFECT_ORIGINAL = 'none';
 
   var EffectClass = {
     NONE: '',
@@ -92,12 +92,12 @@
   });
 
   var renderReset = function () {
-    inputScaleValue.value = scaleValue.MAX + '%';
-    window.slider.resetSlider();
+    inputScaleValue.value = ScaleValue.MAX + '%';
+    window.slider.reset();
 
-    if (scaleValue.MAX >= currentScale + scaleValue.STEP || scaleValue.MIN <= currentScale - scaleValue.STEP) {
-      setScale(currentScale = scaleValue.MAX);
-      currentPhoto = scalePhoto.MAX;
+    if (ScaleValue.MAX >= currentScale + ScaleValue.STEP || ScaleValue.MIN <= currentScale - ScaleValue.STEP) {
+      setScale(currentScale = ScaleValue.MAX);
+      currentPhoto = ScalePhoto.MAX;
       photoPreparation.style.transform = 'scale(' + currentPhoto + ')';
     }
 
@@ -111,7 +111,6 @@
   };
 
   window.effects = {
-    renderReset: renderReset,
-    getEffectClass: getEffectClass
+    renderReset: renderReset
   };
 })();

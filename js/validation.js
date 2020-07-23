@@ -1,6 +1,8 @@
 'use strict';
 
 (function () {
+  var HASHTAG_PATTERN = /[A-Za-z0-9А-аЯ-я#]/g;
+
   var imgUploadForm = document.querySelector('#upload-select-image');
   var hashtagInput = imgUploadForm.querySelector('.text__hashtags');
 
@@ -26,10 +28,24 @@
   };
 
   var checkLengthTag = function (tags) {
-    var arrHashtags = tags.slice().trim().replace(/\s{2,}/g, ' ').toLowerCase().split(' ');
+    var arrayHashtags = tags.slice().trim().replace(/\s{2,}/g, ' ').toLowerCase().split(' ');
 
-    for (var i = 0; i < arrHashtags.length; i++) {
-      if (arrHashtags[i].length < TagLength.MIN) {
+    for (var i = 0; i < arrayHashtags.length; i++) {
+      if (arrayHashtags[i].length < TagLength.MIN) {
+        hashtagInput.style.outline = StyleError.ERRORS;
+        return true;
+      }
+    }
+
+    return false;
+  };
+
+  var checkSpecialSymbol = function (tags) {
+    var arrayHashtags = tags.slice().trim().replace(/\s{2,}/g, ' ').toLowerCase().split(' ');
+
+    for (var i = 0; i < arrayHashtags.length; i++) {
+      var arrayTags = arrayHashtags[i].match(HASHTAG_PATTERN);
+      if (arrayTags.length < arrayHashtags[i].length) {
         hashtagInput.style.outline = StyleError.ERRORS;
         return true;
       }
@@ -39,30 +55,29 @@
   };
 
   var validateTags = function (hashtags) {
-    var arrHashtags = hashtags.slice().trim().replace(/\s{2,}/g, ' ').toLowerCase().split(' ');
+    var arrayHashtags = hashtags.slice().trim().replace(/\s{2,}/g, ' ').toLowerCase().split(' ');
 
-    for (var i = 0; i < arrHashtags.length; i++) {
+    for (var i = 0; i < arrayHashtags.length; i++) {
       switch (true) {
-        case arrHashtags[i][0].slice(0, 1) !== '#':
+        case arrayHashtags[i][0].slice(0, 1) !== '#':
           hashtagInput.style.outline = StyleError.ERRORS;
           hashtagInput.setCustomValidity(ValidateMessage.TOO_SYMBOL_LATTICE);
-          break;
-        case arrHashtags[i].match(/[A-Za-z0-9А-аЯ-я#]/g).length < arrHashtags[i].length:
-          hashtagInput.style.outline = StyleError.ERRORS;
-          hashtagInput.setCustomValidity(ValidateMessage.TOO_SPECIAL_SYMBOL);
           break;
         case checkLengthTag(hashtags):
           hashtagInput.setCustomValidity(ValidateMessage.TOO_SHORT);
           break;
-        case arrHashtags[i].length > TagLength.MAX:
+        case checkSpecialSymbol(hashtags):
+          hashtagInput.setCustomValidity(ValidateMessage.TOO_SPECIAL_SYMBOL);
+          break;
+        case arrayHashtags[i].length > TagLength.MAX:
           hashtagInput.style.outline = StyleError.ERRORS;
           hashtagInput.setCustomValidity(ValidateMessage.TOO_LONG);
           break;
-        case arrHashtags.length > TagLength.MAX_HASHTAG:
+        case arrayHashtags.length > TagLength.MAX_HASHTAG:
           hashtagInput.style.outline = StyleError.ERRORS;
           hashtagInput.setCustomValidity(ValidateMessage.TOO_MAX);
           break;
-        case arrHashtags.indexOf(arrHashtags[i]) !== i:
+        case arrayHashtags.indexOf(arrayHashtags[i]) !== i:
           hashtagInput.style.outline = StyleError.ERRORS;
           hashtagInput.setCustomValidity(ValidateMessage.TOO_TWICE);
           break;

@@ -13,7 +13,7 @@
     if (hashtagInput === document.activeElement || commentUser === document.activeElement) {
       return;
     }
-    window.util.escEvent(evt, onEditPhotoCloseClick);
+    window.util.pressEsc(evt, onEditPhotoCloseClick);
   };
 
   var onEditPhotoOpenChange = function () {
