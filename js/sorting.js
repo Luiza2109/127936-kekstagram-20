@@ -42,7 +42,6 @@
   };
 
   imgFiltersButton.forEach(function (item) {
-
     item.addEventListener('click', function (evt) {
       var data = window.data;
       var target = evt.target;
@@ -61,7 +60,6 @@
       if (target === discussedButtonSort) {
         window.picture.renderPhotos(getDiscussedFilter(data));
       }
-
     });
   });
 })();
